@@ -16,9 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 				contact = @Contact(
 						name = "Sarath Raghavan",
 						email = "sarathnambradath@gmail.com"
-				),
-				license = @License(
-						url = "https://github.com/thombergs/code-examples/blob/master/LICENSE")),
+				)),
 		servers = @Server(url = "http://localhost:8080")
 )
 public class PosPocApplication {
