@@ -1,0 +1,166 @@
+openapi: 3.0.1
+info:
+  title: Zooplus POS
+  description: REST API for Zooplus POS
+  contact:
+    name: Sarath Raghavan
+    email: sarathnambradath@gmail.com
+  license:
+    url: https://github.com/thombergs/code-examples/blob/master/LICENSE
+servers:
+- url: http://localhost:8080
+
+paths:
+  /api/v1/order/add:
+    put:
+      tags:
+      - order-controller
+      operationId: addToCart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+  /api/v1/payment/register:
+    post:
+      tags:
+      - payment-controller
+      operationId: payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+  /api/v1/customer/signup:
+    post:
+      tags:
+      - customer-controller
+      operationId: addCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+  /api/v1/payment/{orderId}:
+    get:
+      tags:
+      - payment-controller
+      operationId: registerPayment
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+components:
+  schemas:
+    OrderRequest:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        currencyOpted:
+          type: string
+        orderAmount:
+          type: number
+    OrderResponse:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int64
+        orderTotal:
+          type: number
+        orderBalance:
+          type: number
+        customerBalance:
+          type: number
+        customerId:
+          type: string
+        currencyOpted:
+          type: string
+    PaymentRequest:
+      type: object
+      properties:
+        currencyOpted:
+          type: string
+        amount:
+          type: number
+        orderId:
+          type: integer
+          format: int64
+    PaymentResponse:
+      type: object
+      properties:
+        orderTotal:
+          type: number
+        orderBalance:
+          type: number
+        customerBalance:
+          type: number
+        amountPaid:
+          type: number
+    CustomerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        walletBalance:
+          type: number
+    CustomerResponse:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        customerBalance:
+          type: number
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+        currency:
+          type: string
